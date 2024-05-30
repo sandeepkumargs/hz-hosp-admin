@@ -1,10 +1,10 @@
 # This workflow will create a .env file with the secrets, does a clean installation of node dependencies, cache/restore them, build the source code and deploy to the IGS remote server
 
-name: SkillViz CI
+name: nodejs
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ "main" ]
     
 jobs:
   build-and-deploy:
