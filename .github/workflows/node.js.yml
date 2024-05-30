@@ -1,4 +1,4 @@
-name: Node.js CI/CD
+name: Node.js CI/CD with Docker
 
 on:
   push:
@@ -12,46 +12,30 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16.12.0'
 
-      - name: Install system dependencies
-        working-directory: /
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y python3 make g++
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build application
-        run: npm run build
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Copy build files via SCP
+      - name: Transfer application files to server
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          
-          source: /dist/*   # Path to your built files
-          target: /home/n/hz-admin-fe1 # Remote directory where files will be copied
+          source: ./*  # Transfer all files in the repository
+          target: /home/n/hz-admin-fe # Remote directory where files will be copied
 
-      - name: SSH into server and restart application
+  deploy-locally:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: SSH into server and deploy Docker image
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            cd /path/to/remote/directory   # Change directory to where the files are copied
-            pm2 restart <your-app-name>    # Restart your application using PM2 or any other tool
+            cd /home/n/hz-admin-fe1 # Change directory to where the files are copied
+            # Now you can run docker build and docker run commands manually
+            # Example:
+            # docker build -t hz-hosp-admin:0.0.1.RELEASE.
+            # docker run -d  -p 8080:80  hz-hosp-admin:0.0.1.RELEASE
