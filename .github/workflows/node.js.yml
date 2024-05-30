@@ -20,7 +20,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           source: ./*  # Transfer all files in the repository
-          target: /home/n/hz-admin-fe # Remote directory where files will be copied
+          target: /path/to/remote/directory  # Remote directory where files will be copied
 
   deploy-locally:
     needs: build
@@ -34,8 +34,47 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            cd /home/n/hz-admin-fe1 # Change directory to where the files are copied
+            cd /path/to/remote/directory  # Change directory to where the files are copied
             # Now you can run docker build and docker run commands manually
             # Example:
-            # docker build -t hz-hosp-admin:0.0.1.RELEASE.
-            # docker run -d  -p 8080:80  hz-hosp-admin:0.0.1.RELEASE
+            # docker build -t name: Node.js CI/CD with Docker
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Transfer application files to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          source: ./*  # Transfer all files in the repository
+          target: /home/n/hz-admin-fe1  # Remote directory where files will be copied
+
+  deploy-locally:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: SSH into server and deploy Docker image
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            cd /home/n/hz-admin-fe1  # Change directory to where the files are copied
+            sudo  docker build -t hz-hosp-admin:0.0.1.RELEASE .
+            sudo  docker container run -d  -p 8080:8080 hz-hosp-admin:0.0.1.RELEASE
+ .
+         
