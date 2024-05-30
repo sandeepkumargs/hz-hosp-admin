@@ -1,44 +1,49 @@
-# This workflow will create a .env file with the secrets, does a clean installation of node dependencies, cache/restore them, build the source code and deploy to the IGS remote server
-
-name: nodejs
+name: Node.js CI/CD
 
 on:
   push:
-    branches: [ "main" ]
-    
+    branches:
+      - main
+
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
-        
+        uses: actions/checkout@v2
+      
       - name: Set up Node.js
         uses: actions/setup-node@v2
-        with: 
-          node-version: '16.12.0'
+        with:
+          node-version: '16.x'
 
-      - name: Install dependencies and build app
-        run: |
-          npm i
-          npm run build
+      - name: Install dependencies
+        run: npm install
 
-      - name: Copy build files via ssh password
-        uses: appleboy/scp-action@v0.1.7
+      - name: Build application
+        run: npm run build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Copy build files via SCP
+        uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.KEY }}
-          source: dist/*
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: dist/*   # Path to your built files
+          target: /path/to/remote/directory   # Remote directory where files will be copied
 
-      - name: Deploy app to remote server using SSH
+      - name: SSH into server and restart application
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.KEY }}
-          target: /home/n/hz-admin-fe1
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            echo "Connected to remote server"
-            
+            cd /path/to/remote/directory   # Change directory to where the files are copied
+            pm2 restart <your-app-name>    # Restart your application using PM2 or any other tool
