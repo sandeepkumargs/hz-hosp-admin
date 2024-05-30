@@ -40,7 +40,9 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          
           source: dist/*   # Path to your built files
           target: /path/to/remote/directory   # Remote directory where files will be copied
 
