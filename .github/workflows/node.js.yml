@@ -43,8 +43,8 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           
-          source: dist/*   # Path to your built files
-          target: /path/to/remote/directory   # Remote directory where files will be copied
+          source: /dist/*   # Path to your built files
+          target: /home/n/hz-admin-fe1 # Remote directory where files will be copied
 
       - name: SSH into server and restart application
         uses: appleboy/ssh-action@master
