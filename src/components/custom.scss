@@ -1,0 +1,84 @@
+$color: #0044e9;
+$none: none;
+$icon_color: #7c7c7d;
+$white: white;
+$black: black;
+
+.spanStyle {
+   color: $color;
+}
+
+.buttonInTable {
+   box-shadow: $none;
+   font-size: 14px;
+}
+
+.iconStyle {
+   color: $icon_color;
+}
+
+.imgStyle {
+   width: 50px;
+}
+
+.preview {
+   width: 500px;
+}
+@media all and (max-width: 350px) and (min-width: 00px) {
+   .preview {
+      width: 200px;
+   }
+}
+@media all and (max-width: 500px) and (min-width: 350px) {
+   .preview {
+      width: 350px;
+   }
+}
+@media all and (max-width: 750px) and (min-width: 500px) {
+   .preview {
+      width: 350px;
+   }
+}
+@media all and (max-width: 1250px) and (min-width: 750px) {
+   .preview {
+      width: 300px;
+   }
+}
+@media all and (min-width: 1250px) {
+   .preview {
+      width: 450px;
+   }
+}
+
+.hotelLogo {
+   width: 170px;
+}
+@media all and (max-width: 350px) and (min-width: 00px) {
+   .hotelLogo {
+      width: 80px;
+   }
+}
+@media all and (max-width: 500px) and (min-width: 350px) {
+   .hotelLogo {
+      width: 110px;
+   }
+}
+@media all and (max-width: 750px) and (min-width: 500px) {
+   .hotelLogo {
+      width: 120px;
+   }
+}
+@media all and (max-width: 960px) and (min-width: 750px) {
+   .hotelLogo {
+      width: 150px;
+   }
+}
+.tabStyle {
+   background-color: $white;
+   color: $black;
+}
+
+.iconButton {
+   color: '#266199';
+   background-color: '#CFD9E3';
+}

@@ -1,0 +1,13 @@
+export const LOGIN = 'LOGIN';
+export const LOGIN_RES = 'LOGIN_RES';
+export const LOG_ERROR = 'LOG_ERROR';
+export const LOGOUT = 'LOGOUT';
+export const GET_ALL_USERS = 'GET_ALL_USERS';
+export const USERS_INFO_RECEIVED = 'USERS_INFO_RECEIVED';
+export const ADD_USER = 'ADD_USER';
+export const UPDATE_USER_INFO = 'UPDATE_USER_INFO';
+export const DELETE_USER = 'DELETE_USER';
+export const DELETE_USER_SUCCESS = 'DELETE_USER_SUCCESS';
+export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
+export const UPDATE_ONE_USER_INFO = 'UPDATE_ONE_USER_INFO';
+export const ONE_CHANGE_PASSWORD = 'ONE_CHANGE_PASSWORD';
