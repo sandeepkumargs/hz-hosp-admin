@@ -19,6 +19,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
+          key: ${{ secrets.KEY }}
           source: ./*  # Transfer all files in the repository
           target: /home/n/hz-admin-fe1  # Remote directory where files will be copied
 
@@ -33,6 +34,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
+          key: ${{ secrets.KEY }}
           script: |
             cd /home/n/hz-admin-fe1  # Change directory to where the files are copied
             sudo docker build -t hz-hosp-admin:0.0.1.RELEASE .
